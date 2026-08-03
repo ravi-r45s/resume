@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ravi Ranjan Mishra — Software Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     EDIT ME: all real content lives in the PROFILE object at the
+     bottom of this file, inside the <script> tag. Change your
+     name, projects, skills etc. there — the page rebuilds itself.
+     ============================================================ */
+
+  :root{
+    --bg: #0a0d12;
+    --bg-elev: #10141c;
+    --bg-elev-2: #161b26;
+    --border: #232a38;
+    --border-soft: #1b212d;
+    --text: #d8dee9;
+    --text-dim: #6b7688;
+    --text-dimmer: #444d5e;
+    --cyan: #5eead4;
+    --pink: #f472b6;
+    --amber: #fbbf24;
+    --violet: #a78bfa;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--cyan); color: #06141a; }
+
+  a{ color: inherit; }
+  .mono{ font-family: var(--mono); }
+
+  /* subtle background grid + glow */
+  body::before{
+    content:"";
+    position: fixed; inset:0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(94,234,212,0.08), transparent),
+      radial-gradient(ellipse 60% 40% at 90% 10%, rgba(244,114,182,0.06), transparent),
+      linear-gradient(var(--border-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+    background-size: auto, auto, 48px 48px, 48px 48px;
+    background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---------- top tab bar (nav) ---------- */
+  .tabbar{
+    position: sticky; top:0; z-index: 50;
+    display:flex; align-items:stretch;
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabbar::-webkit-scrollbar{ display:none; }
+  .tabbar .brand{
+    display:flex; align-items:center; gap:8px;
+    padding: 0 16px;
+    font-family: var(--mono); font-weight:700; font-size: 13px;
+    color: var(--cyan);
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .tabbar .brand .dot{ width:8px; height:8px; border-radius:50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .tab{
+    font-family: var(--mono); font-size: 13px;
+    padding: 14px 18px;
+    color: var(--text-dim);
+    text-decoration:none;
+    border-right: 1px solid var(--border-soft);
+    white-space: nowrap;
+    display:flex; align-items:center; gap:8px;
+    transition: color .15s, background .15s;
+    position: relative;
+  }
+  .tab:hover{ color: var(--text); background: var(--bg-elev-2); }
+  .tab.active{ color: var(--text); background: var(--bg); }
+  .tab.active::after{
+    content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px;
+    background: linear-gradient(90deg, var(--cyan), var(--pink));
+  }
+  .tab .ext{ opacity:.5; }
+  .tabbar .spacer{ flex:1; }
+  .tabbar .win-actions{ display:flex; align-items:center; gap:8px; padding: 0 16px; }
+  .win-actions span{ width:11px; height:11px; border-radius:50%; display:inline-block; }
+  .win-actions .r{ background:#ff5f56; } .win-actions .y{ background:#ffbd2e; } .win-actions .g{ background:#27c93f; }
+
+  section{ position: relative; z-index:1; max-width: 980px; margin: 0 auto; padding: 96px 24px; }
+  .eyebrow{
+    font-family: var(--mono); font-size: 12px; letter-spacing: .06em;
+    color: var(--text-dimmer);
+    display:flex; align-items:center; gap:10px; margin-bottom: 18px;
+  }
+  .eyebrow::before{ content:"//"; color: var(--pink); }
+  h2.section-title{
+    font-family: var(--mono); font-weight: 700; font-size: clamp(22px, 3vw, 30px);
+    margin: 0 0 40px; color: var(--text);
+  }
+  h2.section-title .fn{ color: var(--violet); }
+  h2.section-title .paren{ color: var(--text-dimmer); }
+  h2.section-title .str{ color: var(--amber); }
+
+  /* ---------- hero / terminal ---------- */
+  .hero-wrap{ max-width: 980px; margin: 0 auto; padding: 72px 24px 40px; position:relative; z-index:1; }
+  .terminal{
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,0.6), 0 0 60px -20px rgba(94,234,212,0.08);
+  }
+  .terminal-bar{
+    display:flex; align-items:center; gap:8px;
+    padding: 10px 14px;
+    background: var(--bg-elev-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .terminal-bar .dots span{ width:11px; height:11px; border-radius:50%; display:inline-block; margin-right:6px; }
+  .terminal-bar .title{ margin:0 auto; font-family: var(--mono); font-size:12px; color: var(--text-dim); }
+  .terminal-body{ padding: 28px 28px 34px; font-family: var(--mono); font-size: 14px; min-height: 260px; }
+  .terminal-body .line{ color: var(--text-dim); margin-bottom: 6px; }
+  .terminal-body .prompt{ color: var(--cyan); }
+  .terminal-body .path{ color: var(--violet); }
+  .type-line{ color: var(--text); white-space: pre-wrap; word-break: break-word; }
+  .cursor{ display:inline-block; width:8px; height:1.1em; background: var(--cyan); vertical-align: text-bottom; animation: blink 1s step-end infinite; margin-left:2px; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero-name{ font-family: var(--mono); font-weight:800; font-size: clamp(32px, 6vw, 56px); margin: 22px 0 4px; line-height:1.05; }
+  .hero-name .accent{ background: linear-gradient(90deg, var(--cyan), var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero-role{ font-family: var(--mono); color: var(--text-dim); font-size: clamp(15px,2vw,18px); margin-bottom: 20px; }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top: 28px; }
+  .btn{
+    font-family: var(--mono); font-size: 13px; font-weight:600;
+    padding: 12px 20px; border-radius: 6px; text-decoration:none;
+    border: 1px solid var(--border); color: var(--text);
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .15s, border-color .15s, box-shadow .15s;
+  }
+  .btn:hover{ transform: translateY(-2px); border-color: var(--cyan); box-shadow: 0 8px 24px -12px rgba(94,234,212,0.4); }
+  .btn.primary{ background: var(--cyan); color:#06141a; border-color: var(--cyan); }
+  .btn.primary:hover{ box-shadow: 0 8px 24px -8px rgba(94,234,212,0.5); }
+
+  /* ---------- about ---------- */
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items:start; }
+  .about-text p{ color: var(--text); margin: 0 0 16px; font-size: 15.5px; }
+  .about-text .highlight{ color: var(--cyan); }
+  .facts{ background: var(--bg-elev); border:1px solid var(--border); border-radius:10px; padding: 20px 22px; font-family: var(--mono); font-size: 13px; }
+  .facts .row{ display:flex; justify-content:space-between; padding: 9px 0; border-bottom: 1px solid var(--border-soft); color: var(--text-dim); }
+  .facts .row:last-child{ border-bottom:none; }
+  .facts .row b{ color: var(--text); font-weight:500; }
+
+  /* ---------- skills ---------- */
+  .json-card{
+    background: var(--bg-elev); border:1px solid var(--border); border-radius: 10px;
+    padding: 26px 30px; font-family: var(--mono); font-size: 13.5px; overflow-x:auto;
+  }
+  .json-card .k{ color: var(--pink); }
+  .json-card .s{ color: var(--amber); }
+  .json-card .punc{ color: var(--text-dimmer); }
+  .json-card .arr-item{ color: var(--cyan); }
+  .json-line{ padding-left: 24px; white-space: pre-wrap; }
+
+  /* ---------- projects ---------- */
+  .projects-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+  .proj-card{
+    background: var(--bg-elev); border: 1px solid var(--border); border-radius: 10px;
+    overflow:hidden; display:flex; flex-direction:column;
+    transition: transform .18s, border-color .18s, box-shadow .18s;
+  }
+  .proj-card:hover{ transform: translateY(-4px); border-color: rgba(94,234,212,0.4); box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5); }
+  .proj-tab{
+    display:flex; align-items:center; gap:8px;
+    padding: 10px 14px; background: var(--bg-elev-2); border-bottom: 1px solid var(--border);
+    font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+  }
+  .proj-tab .filedot{ width:7px; height:7px; border-radius:50%; }
+  .proj-body{ padding: 20px 22px 22px; flex:1; display:flex; flex-direction:column; }
+  .proj-body h3{ margin: 0 0 8px; font-size: 17px; font-family: var(--mono); color: var(--text); }
+  .proj-body p{ margin: 0 0 16px; font-size: 14px; color: var(--text-dim); flex:1; }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 16px; }
+  .tag{ font-family: var(--mono); font-size: 11px; padding: 3px 9px; border-radius: 20px; border:1px solid var(--border); color: var(--text-dim); }
+  .proj-links{ display:flex; gap:16px; font-family: var(--mono); font-size: 12.5px; }
+  .proj-links a{ color: var(--cyan); text-decoration:none; display:flex; align-items:center; gap:6px; }
+  .proj-links a:hover{ text-decoration:underline; }
+
+  /* ---------- experience (git log) ---------- */
+  .gitlog{ position:relative; padding-left: 28px; }
+  .gitlog::before{ content:""; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background: linear-gradient(var(--border), var(--border) 80%, transparent); }
+  .commit{ position:relative; margin-bottom: 34px; }
+  .commit:last-child{ margin-bottom:0; }
+  .commit::before{
+    content:""; position:absolute; left:-28px; top:4px; width:13px; height:13px; border-radius:50%;
+    background: var(--bg); border: 2px solid var(--cyan); box-shadow: 0 0 0 4px var(--bg);
+  }
+  .commit-head{ display:flex; flex-wrap:wrap; align-items:baseline; gap: 10px; font-family: var(--mono); font-size: 13px; margin-bottom:6px; }
+  .commit-hash{ color: var(--amber); }
+  .commit-role{ color: var(--text); font-weight:700; font-size: 15px; }
+  .commit-org{ color: var(--violet); }
+  .commit-date{ color: var(--text-dimmer); margin-left:auto; }
+  .commit-body{ color: var(--text-dim); font-size: 14px; margin: 0; padding-left: 0; }
+  .commit-body li{ margin-bottom: 4px; }
+
+  /* ---------- contact ---------- */
+  .contact-term{ max-width: 640px; }
+  .contact-line{ font-family: var(--mono); font-size: 14px; margin-bottom: 10px; }
+  .contact-line .k{ color: var(--text-dim); }
+  .copy-row{ display:flex; align-items:center; gap:10px; background: var(--bg-elev); border:1px solid var(--border); border-radius:8px; padding: 12px 16px; margin-top: 22px; }
+  .copy-row code{ font-family: var(--mono); font-size: 14px; color: var(--cyan); flex:1; overflow-x:auto; }
+  .copy-btn{ background: var(--bg-elev-2); border:1px solid var(--border); color: var(--text-dim); font-family: var(--mono); font-size:12px; padding: 7px 12px; border-radius:6px; cursor:pointer; }
+  .copy-btn:hover{ color: var(--cyan); border-color: var(--cyan); }
+  .social-row{ display:flex; gap:14px; margin-top: 26px; }
+  .social-row a{ font-family: var(--mono); font-size:13px; color: var(--text-dim); text-decoration:none; border:1px solid var(--border); padding:10px 16px; border-radius:6px; transition: all .15s; }
+  .social-row a:hover{ color: var(--cyan); border-color: var(--cyan); }
+
+  /* ---------- status bar (footer) ---------- */
+  .statusbar{
+    position: sticky; bottom:0; z-index: 40;
+    display:flex; align-items:center; gap: 18px;
+    background: var(--bg-elev-2); border-top: 1px solid var(--border);
+    padding: 7px 18px; font-family: var(--mono); font-size: 11.5px; color: var(--text-dim);
+    overflow-x:auto; white-space:nowrap;
+  }
+  .statusbar .item{ display:flex; align-items:center; gap:6px; }
+  .statusbar .dot-live{ width:7px; height:7px; border-radius:50%; background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+  .statusbar .push{ margin-left:auto; }
+
+  @media (max-width: 780px){
+    .about-grid{ grid-template-columns: 1fr; }
+    section{ padding: 64px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .cursor{ animation:none; }
+    .proj-card, .btn{ transition:none; }
+  }
+
+  :focus-visible{ outline: 2px solid var(--cyan); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<nav class="tabbar" id="tabbar">
+  <div class="brand"><span class="dot"></span> ravi.dev</div>
+  <a href="#about" class="tab" data-tab="about">about<span class="ext">.js</span></a>
+  <a href="#skills" class="tab" data-tab="skills">skills<span class="ext">.json</span></a>
+  <a href="#projects" class="tab" data-tab="projects">projects<span class="ext">/</span></a>
+  <a href="#experience" class="tab" data-tab="experience">experience<span class="ext">.log</span></a>
+  <a href="#education" class="tab" data-tab="education">education<span class="ext">.md</span></a>
+  <a href="#contact" class="tab" data-tab="contact">contact<span class="ext">.sh</span></a>
+  <div class="spacer"></div>
+</nav>
+
+<div class="hero-wrap">
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="dots"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+      <div class="title">zsh — whoami</div>
+    </div>
+    <div class="terminal-body" id="terminalBody">
+      <div class="line"><span class="prompt">➜</span> <span class="path">~</span> whoami</div>
+      <div class="type-line" id="typeLine"></div>
+    </div>
+  </div>
+  <h1 class="hero-name" id="heroName"></h1>
+  <div class="hero-role" id="heroRole"></div>
+  <div class="hero-actions" id="heroActions"></div>
+</div>
+
+<section id="about">
+  <div class="eyebrow">about.js</div>
+  <h2 class="section-title"><span class="fn">function</span> <span class="paren">about(</span><span class="str">"me"</span><span class="paren">)</span></h2>
+  <div class="about-grid">
+    <div class="about-text" id="aboutText"></div>
+    <div class="facts" id="factsCard"></div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="eyebrow">skills.json</div>
+  <h2 class="section-title"><span class="paren">{</span> <span class="str">"stack"</span> <span class="paren">}</span></h2>
+  <div class="json-card" id="skillsCard"></div>
+</section>
+
+<section id="projects">
+  <div class="eyebrow">projects/</div>
+  <h2 class="section-title"><span class="fn">ls</span> <span class="paren">-la</span> <span class="str">./projects</span></h2>
+  <div class="projects-grid" id="projectsGrid"></div>
+</section>
+
+<section id="experience">
+  <div class="eyebrow">experience.log</div>
+  <h2 class="section-title"><span class="fn">git</span> <span class="paren">log</span> <span class="str">--career</span></h2>
+  <div class="gitlog" id="gitlog"></div>
+</section>
+
+<section id="education">
+  <div class="eyebrow">education.md</div>
+  <h2 class="section-title"><span class="fn">git</span> <span class="paren">log</span> <span class="str">--education</span></h2>
+  <div class="gitlog" id="eduLog"></div>
+  <div class="eyebrow" style="margin-top:44px;">certificates.txt</div>
+  <div class="tag-row" id="certsRow"></div>
+</section>
+
+<section id="contact">
+  <div class="eyebrow">contact.sh</div>
+  <h2 class="section-title"><span class="fn">./</span><span class="str">reach_out.sh</span></h2>
+  <div class="contact-term">
+    <div class="contact-line"><span class="k">➜</span> <span class="path">~</span> <span id="contactCmd"></span></div>
+    <div class="copy-row">
+      <code id="emailText"></code>
+      <button class="copy-btn" id="copyBtn">copy</button>
+    </div>
+    <div class="social-row" id="socialRow"></div>
+  </div>
+</section>
+
+<div class="statusbar">
+  <div class="item"><span class="dot-live"></span> main</div>
+  <div class="item">UTF-8</div>
+  <div class="item">LF</div>
+  <div class="item">Prettier</div>
+  <div class="item push" id="statusTime"></div>
+</div>
+
+<script>
+/* ============================================================
+   EDIT ME — everything on the page is generated from this object.
+   Replace the values below with your own info and the whole
+   site updates: no need to touch the HTML or CSS above.
+   ============================================================ */
+const PROFILE = {
+  name: "Ravi Ranjan Mishra",
+  role: "Software Developer",
+  location: "Kadamkuan, Patna",
+  yearsExp: "1",
+  focus: "full-stack web development",
+  availability: "open to new opportunities",
+  email: "013.raviranjan@gmail.com",
+  phone: "9123196230",
+  resumeUrl: "#",
+  socials: [
+    { label: "GitHub", url: "#" },
+    { label: "LinkedIn", url: "#" }
+  ],
+  bio: [
+    "I'm a detail-oriented software developer with a strong foundation in Java, Data Structures & Algorithms, Object-Oriented Programming, and full-stack web development. I like turning problems into clean, working systems — front end and back end both.",
+    "I'm comfortable across the <span class='highlight'>MERN stack</span> (MongoDB, Express.js, React.js, Node.js) as well as Java and C#, and I've built everything from REST APIs with JWT authentication to location-based platforms and desktop utilities. Currently looking to grow as a developer inside a team that ships real products."
+  ],
+  facts: [
+    { k: "role", v: "Software Developer" },
+    { k: "based_in", v: "Patna, Bihar" },
+    { k: "phone", v: "9123196230" },
+    { k: "status", v: "open to opportunities" }
+  ],
+  skills: {
+    languages: ["Java", "JavaScript", "C", "C++", "C#"],
+    frontend: ["HTML", "CSS", "React.js", "Bootstrap"],
+    backend: ["Node.js", "Express.js", "ASP.NET", "REST API", "JWT Auth", "bcrypt"],
+    database: ["MySQL", "MongoDB"],
+    tools: ["Git", "GitHub", "VS Code", "Postman"]
+  },
+  projects: [
+    {
+      file: "hotel-review-system.js",
+      name: "Hotel Review System",
+      desc: "MERN stack app where users browse hotels, view details, and leave verified reviews and ratings after secure authentication — helping visitors make informed booking decisions.",
+      tags: ["MongoDB", "Express.js", "React.js", "Node.js", "JWT"],
+      demo: "#", code: "#"
+    },
+    {
+      file: "local-rojgar.js",
+      name: "Local Rojgar",
+      desc: "Location-based job platform connecting people with nearby skilled workers (electricians, plumbers, carpenters, masons) using location-based search and separate worker/user auth.",
+      tags: ["MongoDB", "Express.js", "React.js", "Node.js", "EJS", "Bootstrap"],
+      demo: "#", code: "#"
+    },
+    {
+      file: "MultiToolCalculator.java",
+      name: "Multi-Tool Calculator",
+      desc: "Desktop application bundling multiple everyday calculation utilities into one simple, user-friendly Java Swing interface.",
+      tags: ["Java", "Swing", "OOP"],
+      demo: "#", code: "#"
+    }
+  ],
+  experience: [
+    {
+      hash: "nic2025",
+      role: "Web Development Intern",
+      org: "NIC (National Informatics Centre)",
+      date: "09/2025 — 12/2025 · Patna, Bihar",
+      points: [
+        "Developed responsive web pages using HTML, CSS, and JavaScript.",
+        "Worked on the backend using C#, integrating a MySQL database for user authentication and data storage.",
+        "Gained hands-on experience across the full stack, from UI to database."
+      ]
+    }
+  ],
+  education: [
+    {
+      hash: "mca2026",
+      role: "Master in Computer Application",
+      org: "LNCT University, Bhopal, M.P.",
+      date: "08/2024 — 07/2026",
+      points: ["CGPA: 9.08"]
+    },
+    {
+      hash: "bca2024",
+      role: "Bachelor in Computer Application",
+      org: "A.N. College, Patna, Bihar",
+      date: "05/2021 — 07/2024",
+      points: ["Score: 73.2%"]
+    },
+    {
+      hash: "hs2021",
+      role: "12th (Higher Secondary)",
+      org: "Patna Muslim High School, Patna, Bihar",
+      date: "03/2020 — 03/2021",
+      points: ["Score: 73.4%"]
+    }
+  ],
+  certificates: [
+    "DSA with Java — Apna College, 2025",
+    "Internship — National Informatics Centre, 2025",
+    "Coding Competition — LNCT University, 2025"
+  ]
+};
+
+/* ---------------- rendering (no need to edit below) ---------------- */
+
+function el(html){ const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; }
+
+// hero name / role / actions
+document.getElementById('heroName').innerHTML = PROFILE.name.split(' ')[0] + ' <span class="accent">' + PROFILE.name.split(' ').slice(1).join(' ') + '</span>';
+document.getElementById('heroRole').textContent = PROFILE.role + '  ·  ' + PROFILE.location;
+document.getElementById('heroActions').innerHTML = `
+  <a class="btn primary" href="#projects">View projects →</a>
+  <a class="btn" href="${PROFILE.resumeUrl}">Download résumé</a>
+  <a class="btn" href="#contact">Get in touch</a>
+`;
+
+// terminal typewriter
+const typeTarget = `${PROFILE.name.toLowerCase().replace(' ','_')} — ${PROFILE.role.split('·')[0].trim()}, ${PROFILE.focus}. ${PROFILE.availability}.`;
+const typeLine = document.getElementById('typeLine');
+let ti = 0;
+function typeStep(){
+  if(ti <= typeTarget.length){
+    typeLine.innerHTML = typeTarget.slice(0, ti) + '<span class="cursor"></span>';
+    ti++;
+    setTimeout(typeStep, 18 + Math.random()*22);
+  }
+}
+typeStep();
+
+// about
+document.getElementById('aboutText').innerHTML = PROFILE.bio.map(p => `<p>${p}</p>`).join('');
+document.getElementById('factsCard').innerHTML = PROFILE.facts.map(f => `<div class="row"><span>${f.k}</span><b>${f.v}</b></div>`).join('');
+
+// skills json card
+function renderSkills(skills){
+  const keys = Object.keys(skills);
+  let html = `<div>{</div>`;
+  keys.forEach((k, i) => {
+    const items = skills[k].map(s => `<span class="s">"${s}"</span>`).join(`<span class="punc">, </span>`);
+    const comma = i < keys.length - 1 ? '<span class="punc">,</span>' : '';
+    html += `<div class="json-line"><span class="k">"${k}"</span><span class="punc">: [</span>${items}<span class="punc">]</span>${comma}</div>`;
+  });
+  html += `<div>}</div>`;
+  return html;
+}
+document.getElementById('skillsCard').innerHTML = renderSkills(PROFILE.skills);
+
+// projects
+const dotColors = ['#5eead4','#f472b6','#fbbf24','#a78bfa'];
+document.getElementById('projectsGrid').innerHTML = PROFILE.projects.map((p, i) => `
+  <div class="proj-card">
+    <div class="proj-tab"><span class="filedot" style="background:${dotColors[i % dotColors.length]}"></span>${p.file}</div>
+    <div class="proj-body">
+      <h3>${p.name}</h3>
+      <p>${p.desc}</p>
+      <div class="tag-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="proj-links">
+        <a href="${p.demo}">↗ live demo</a>
+        <a href="${p.code}">⌥ source</a>
+      </div>
+    </div>
+  </div>
+`).join('');
+
+// experience / git log
+document.getElementById('gitlog').innerHTML = PROFILE.experience.map(c => `
+  <div class="commit">
+    <div class="commit-head">
+      <span class="commit-hash">${c.hash}</span>
+      <span class="commit-role">${c.role}</span>
+      <span class="commit-org">@ ${c.org}</span>
+      <span class="commit-date">${c.date}</span>
+    </div>
+    <ul class="commit-body">${c.points.map(pt => `<li>${pt}</li>`).join('')}</ul>
+  </div>
+`).join('');
+
+// education / git log
+document.getElementById('eduLog').innerHTML = PROFILE.education.map(c => `
+  <div class="commit">
+    <div class="commit-head">
+      <span class="commit-hash">${c.hash}</span>
+      <span class="commit-role">${c.role}</span>
+      <span class="commit-org">@ ${c.org}</span>
+      <span class="commit-date">${c.date}</span>
+    </div>
+    <ul class="commit-body">${c.points.map(pt => `<li>${pt}</li>`).join('')}</ul>
+  </div>
+`).join('');
+document.getElementById('certsRow').innerHTML = PROFILE.certificates.map(c => `<span class="tag">${c}</span>`).join('');
+
+// contact
+document.getElementById('contactCmd').textContent = `mail --to ${PROFILE.name.split(' ')[0].toLowerCase()} --phone ${PROFILE.phone}`;
+document.getElementById('emailText').textContent = `${PROFILE.email}   ·   ${PROFILE.phone}`;
+document.getElementById('socialRow').innerHTML = PROFILE.socials.map(s => `<a href="${s.url}">${s.label} ↗</a>`).join('');
+document.getElementById('copyBtn').addEventListener('click', () => {
+  navigator.clipboard.writeText(`${PROFILE.email}, ${PROFILE.phone}`).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const prev = btn.textContent;
+    btn.textContent = 'copied!';
+    setTimeout(() => btn.textContent = prev, 1500);
+  });
+});
+
+// status bar clock
+function updateClock(){
+  const now = new Date();
+  document.getElementById('statusTime').textContent = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + ' local';
+}
+updateClock();
+setInterval(updateClock, 30000);
+
+// active tab highlighting on scroll
+const tabs = document.querySelectorAll('.tab');
+const sections = [...tabs].map(t => document.querySelector(t.getAttribute('href')));
+function onScroll(){
+  let idx = 0;
+  sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= 120) idx = i; });
+  tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+}
+document.addEventListener('scroll', onScroll, { passive:true });
+onScroll();
+</script>
+</body>
+</html>
