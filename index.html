@@ -356,10 +356,10 @@ const PROFILE = {
   availability: "open to new opportunities",
   email: "013.raviranjan@gmail.com",
   phone: "9123196230",
-  resumeUrl: "#",
+  resumeUrl: "Ravi_Ranjan_Mishra_Resume.pdf",
   socials: [
-    { label: "GitHub", url: "#" },
-    { label: "LinkedIn", url: "#" }
+    { label: "GitHub", url: "https://github.com/ravi-r45s" },
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/r-r-m/" }
   ],
   bio: [
     "I'm a detail-oriented software developer with a strong foundation in Java, Data Structures & Algorithms, Object-Oriented Programming, and full-stack web development. I like turning problems into clean, working systems — front end and back end both.",
@@ -453,7 +453,7 @@ document.getElementById('heroName').innerHTML = PROFILE.name.split(' ')[0] + ' <
 document.getElementById('heroRole').textContent = PROFILE.role + '  ·  ' + PROFILE.location;
 document.getElementById('heroActions').innerHTML = `
   <a class="btn primary" href="#projects">View projects →</a>
-  <a class="btn" href="${PROFILE.resumeUrl}">Download résumé</a>
+  <a class="btn" href="${PROFILE.resumeUrl}" download>Download résumé</a>
   <a class="btn" href="#contact">Get in touch</a>
 `;
 
@@ -535,7 +535,7 @@ document.getElementById('certsRow').innerHTML = PROFILE.certificates.map(c => `<
 // contact
 document.getElementById('contactCmd').textContent = `mail --to ${PROFILE.name.split(' ')[0].toLowerCase()} --phone ${PROFILE.phone}`;
 document.getElementById('emailText').textContent = `${PROFILE.email}   ·   ${PROFILE.phone}`;
-document.getElementById('socialRow').innerHTML = PROFILE.socials.map(s => `<a href="${s.url}">${s.label} ↗</a>`).join('');
+document.getElementById('socialRow').innerHTML = PROFILE.socials.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.label} ↗</a>`).join('');
 document.getElementById('copyBtn').addEventListener('click', () => {
   navigator.clipboard.writeText(`${PROFILE.email}, ${PROFILE.phone}`).then(() => {
     const btn = document.getElementById('copyBtn');
